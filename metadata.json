@@ -1,0 +1,6 @@
+{
+  "name": "Social Mobility Simulator",
+  "description": "Human Digital Twins (HDT) multi-agent simulation framework with Deep RL decision engines, empirical calibration (NIDS, IHDS, POF), School Dropout Early Warning AI Engine, 3D trajectory visualizer, and policy counterfactual analytics.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

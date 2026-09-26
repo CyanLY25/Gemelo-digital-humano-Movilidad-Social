@@ -1,0 +1,11 @@
+pid,province,township_flag,raw_monthly_rand,maternal_edu_yrs,child_edu_yrs,travel_dist_km,informal_sector,iq_score_raw,grit_scale
+NIDS_5001,Gauteng,1,3800,5,8,14.5,1,82.4,0.35
+NIDS_5002,Western Cape,0,7200,10,12,6.2,0,102.1,0.61
+NIDS_5003,KwaZulu-Natal,1,4100,6,9,11.8,1,85.0,0.40
+NIDS_5004,Eastern Cape,1,2900,4,7,18.2,1,79.5,0.32
+NIDS_5005,Free State,0,5500,8,11,8.0,0,96.3,0.52
+NIDS_5006,Gauteng,1,3500,5,8,15.0,1,81.0,0.34
+NIDS_5007,Limpopo,1,2800,4,6,20.5,1,78.2,0.30
+NIDS_5008,Mpumalanga,0,6100,9,12,7.5,0,99.8,0.58
+NIDS_5009,North West,1,3900,6,9,13.2,1,84.1,0.38
+NIDS_5010,Northern Cape,0,5800,8,11,9.1,0,97.5,0.54

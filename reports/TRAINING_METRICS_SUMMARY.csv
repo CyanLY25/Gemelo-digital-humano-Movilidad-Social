@@ -1,0 +1,6 @@
+Rank,Model_Name,Status,Composite_Utility_Score,F1_Score,AUC_ROC,Latency_ms,Explainability_Pct,Brier_Score,TP,FP,TN,FN
+1,XGBoost (Gradient Boosting),RECOMMENDED_PROD,86.54,89.8%,94.6%,8.7,88%,0.089,127,23,802,48
+2,LSTM-Autoencoder + RF,CANDIDATE,82.58,91.5%,95.8%,22.8,79%,0.072,137,13,812,38
+3,Random Forest (Ensemble),BASELINE,80.60,86.4%,91.2%,14.2,85%,0.112,107,45,780,68
+4,CNN-LSTM (Deep Hybrid),EVALUATED,69.71,87.9%,92.8%,44.5,62%,0.098,119,37,788,56
+5,SVM (RBF Kernel),EVALUATED,58.40,81.2%,85.4%,32.1,65%,0.145,90,80,745,85
