@@ -44,6 +44,7 @@ def render_tab_07_tablero_scrum():
         st.subheader("📖 Product Backlog (15 Historias de Usuario US-01 a US-15)")
         df_backlog = pd.DataFrame(USER_STORIES)
         st.dataframe(df_backlog, use_container_width=True, hide_index=True)
+        st.caption("💡 **Interpretabilidad & Explicabilidad**: Lista las 15 Historias de Usuario priorizadas con sus roles, puntos de esfuerzo Fibonacci y estado de completitud en los sprints.")
 
     with t3:
         st.subheader("📌 Tablero Kanban Interactivo")
@@ -66,6 +67,7 @@ def render_tab_07_tablero_scrum():
             st.markdown("### ✅ Done")
             for us in [u for u in USER_STORIES if u["status"] == "Done"][:6]:
                 st.success(f"**[{us['id']}] {us['role']}**\n\n{us['story']}\n\n*({us['pts']} pts)*")
+        st.caption("💡 **Interpretabilidad & Explicabilidad**: Muestra el estado del flujo de trabajo ágil Kanban (To Do, In Progress, Code Review, Done) para auditar el cumplimiento del desarrollo.")
 
     with t4:
         st.subheader("📉 Burndown Chart de los 3 Sprints")
@@ -78,3 +80,4 @@ def render_tab_07_tablero_scrum():
         fig_burn.add_trace(go.Scatter(x=sprint_days, y=real_burndown, mode="lines+markers", name="Burndown Real del Equipo", line=dict(color="#00E676", width=3)))
         fig_burn.update_layout(xaxis_title="Días de Desarrollo (3 Sprints)", yaxis_title="Story Points Restantes", template="plotly_dark", height=420)
         st.plotly_chart(fig_burn, use_container_width=True)
+        st.caption("💡 **Interpretabilidad & Explicabilidad**: Compara la reducción ideal de trabajo (línea punteada) frente al avance real del equipo en Story Points a lo largo de los días de sprint.")

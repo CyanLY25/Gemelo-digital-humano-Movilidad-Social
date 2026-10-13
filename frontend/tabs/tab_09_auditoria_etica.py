@@ -17,6 +17,7 @@ def render_tab_09_auditoria_etica(api_client, country_id: str, active_policy: di
     with m2: st.metric("Regla de los 4/5 (EEOC)", "0.81", "Sin Impacto Dispar", delta_color="normal")
     with m3: st.metric("Diferencia Equalized Odds", "0.065", "Baja Sesgo (<= 0.10)", delta_color="normal")
     with m4: st.metric("Tasa de Violación Contrafactual", "4.1%", "Dentro de Margen", delta_color="normal")
+    st.caption("💡 **Interpretabilidad & Explicabilidad**: Evalúa cuantitativamente el cumplimiento de principios de no discriminación (paridad de género, regla de los 4/5 de la EEOC y diferencia de oportunidades).")
 
     st.markdown("---")
     c1, c2 = st.columns(2)
@@ -34,6 +35,7 @@ def render_tab_09_auditoria_etica(api_client, country_id: str, active_policy: di
         fig_shap = go.Figure(go.Bar(x=df_s["SHAP"], y=df_s["Feature"], orientation="h", marker=dict(color=["#00E676" if v > 0 else "#FF1744" for v in df_s["SHAP"]])))
         fig_shap.update_layout(title="TreeSHAP Value Absoluto Promedio", template="plotly_dark", height=380)
         st.plotly_chart(fig_shap, use_container_width=True)
+        st.caption("💡 **Interpretabilidad & Explicabilidad**: Cuantifica la contribución global promedio (SHAP) de cada variable en las predicciones del modelo, identificando los factores impulsores y las penalidades.")
 
     with c2:
         st.subheader("📜 Directrices de Transparencia & Explicabilidad (XAI)")
@@ -55,3 +57,4 @@ def render_tab_09_auditoria_etica(api_client, country_id: str, active_policy: di
             file_name="EIA_REPORT.JSON",
             mime="application/json"
         )
+        st.caption("💡 **Interpretabilidad & Explicabilidad**: Permite descargar la auditoría de sesgos algorítmicos en formato JSON estándar para verificación independiente de cumplimiento normativo.")

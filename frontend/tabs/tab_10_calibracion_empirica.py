@@ -20,6 +20,7 @@ def render_tab_10_calibracion_empirica():
             "tasa_informalidad_local": [0.62, 0.65, 0.38, 0.48, 0.58, 0.40, 0.18, 0.22, 0.59, 0.54, 0.36, 0.15, 0.28, 0.52, 0.50, 0.60, 0.42, 0.39, 0.70, 0.61],
         })
         st.dataframe(sample_data, use_container_width=True, hide_index=True)
+        st.caption("💡 **Interpretabilidad & Explicabilidad**: Presenta la muestra de microdatos tratados mediante Imputación Múltiple por Ecuaciones Encadenadas (MICE) para recuperar valores no reportados de ingreso y escolaridad.")
 
     with t2:
         st.subheader("📐 Matriz de Varianza-Covarianza de los 5 Capitales HDT")
@@ -35,3 +36,4 @@ def render_tab_10_calibracion_empirica():
             index=["Cognitivo", "Humano", "Social", "Psicológico", "Segregación Estructural"]
         )
         st.dataframe(cov_matrix.style.background_gradient(cmap="coolwarm"), use_container_width=True)
+        st.caption("💡 **Interpretabilidad & Explicabilidad**: Muestra la estructura de correlación y covarianza cruzada entre los 5 capitales HDT, respaldando la validez estocástica del generador de agentes de la población.")

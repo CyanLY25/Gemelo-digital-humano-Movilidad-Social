@@ -55,6 +55,7 @@ def render_tab_02_simulador_politicas(api_client, country_id: str, active_policy
         ))
         fig.update_layout(title="Curva de Lorenz vs Igualdad Perfecta", template="plotly_dark", height=420)
         st.plotly_chart(fig, use_container_width=True)
+        st.caption("💡 **Interpretabilidad & Explicabilidad**: Representa la concentración del ingreso en la población. Cuanto más cerca esté la curva verde de la línea punteada de 45°, menor es la desigualdad económica alcanzada por la política simulada.")
 
     with col2:
         st.subheader("📈 Trayectorias Salariales por 10 Deciles (Años 0-45)")
@@ -66,3 +67,4 @@ def render_tab_02_simulador_politicas(api_client, country_id: str, active_policy
             fig2.add_trace(go.Scatter(x=ages, y=wages, mode="lines", name=f"Decil {dec}", line=dict(width=2.5 if dec in (1,5,10) else 1.2)))
         fig2.update_layout(title="Trayectorias Longitudinales Salariales", template="plotly_dark", height=420)
         st.plotly_chart(fig2, use_container_width=True)
+        st.caption("💡 **Interpretabilidad & Explicabilidad**: Describe la evolución temporal del ingreso promedio para cada decil de la población a lo largo de 45 años de ciclo vital. Explica el ritmo de cierre de brechas entre los deciles inferiores (1-3) y superiores (8-10).")

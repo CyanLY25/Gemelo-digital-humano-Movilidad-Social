@@ -28,3 +28,5 @@ def render_voice_assistant(api_client, simulation_context: dict = None):
         st.markdown("- *'Calcula la variación del Gini con primera infancia'*")
         st.markdown("- *'Evalúa el riesgo de deserción para asistencia 64%'*")
         st.markdown("- *'Exporta el reporte ejecutivo en PDF'*")
+
+    st.caption("💡 **Interpretabilidad & Explicabilidad**: Ofrece explicaciones conversacionales en lenguaje natural procesadas por el sistema de agentes a partir del estado econométrico en tiempo real.")

@@ -51,6 +51,7 @@ def render_tab_05_orquestacion_ia(api_client):
     fig_g.add_trace(go.Scatter(x=xs, y=ys, mode="markers+text", marker=dict(size=38, color=nc, line=dict(color="white", width=2)), text=labels, textposition="top center", textfont=dict(color="white", size=11), showlegend=False))
     fig_g.update_layout(xaxis=dict(showgrid=False, zeroline=False, showticklabels=False), yaxis=dict(showgrid=False, zeroline=False, showticklabels=False), template="plotly_dark", height=260, margin=dict(l=20, r=20, t=20, b=20))
     st.plotly_chart(fig_g, use_container_width=True)
+    st.caption("💡 **Interpretabilidad & Explicabilidad**: Representa la topología del flujo de control por nodos. Explica cómo la intención detectada en la entrada enruta la ejecución hacia herramientas econométricas, RAG o flujos de Langflow.")
 
     st.markdown("---")
     st.subheader("💬 Consola de Ejecución del Orquestador")
@@ -81,3 +82,4 @@ def render_tab_05_orquestacion_ia(api_client):
             st.markdown(f"**Paso {idx+1} — Nodo `{step['node']}`**")
             if step.get("details"):
                 st.json(step["details"])
+        st.caption("💡 **Interpretabilidad & Explicabilidad**: Muestra la secuencia auditables de nodos ejecutados en tiempo real con sus marcas temporales y datos de contexto transferidos.")

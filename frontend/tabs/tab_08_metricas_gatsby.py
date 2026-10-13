@@ -28,10 +28,10 @@ def render_tab_08_metricas_gatsby(api_client, country_id: str, active_policy: di
         fig_heat = go.Figure(data=go.Heatmap(z=z_pct, x=labels, y=labels, colorscale="Viridis", text=[[f"{v:.1f}%" for v in row] for row in z_pct], texttemplate="%{text}", textfont={"size": 13, "color": "white"}))
         fig_heat.update_layout(title="Probabilidad Condicional Padre (Fila) -> Hijo (Col)", xaxis_title="Quintil Destino (Hijo)", yaxis_title="Quintil Origen (Padre)", template="plotly_dark", height=420)
         st.plotly_chart(fig_heat, use_container_width=True)
+        st.caption("💡 **Interpretabilidad & Explicabilidad**: Describe las probabilidades condicionales de movilidad entre quintiles. La diagonal principal explica la persistencia de estatus socioeconómico de padres a hijos.")
 
     with c2:
         st.subheader("🌐 Curva de Great Gatsby Internacional")
-        # International scatter plot data
         countries_gatsby = [
             {"name": "Sudáfrica", "gini": 0.63, "ige": 0.68, "color": "#FF1744"},
             {"name": "Brasil", "gini": 0.53, "ige": 0.58, "color": "#FF9100"},
@@ -46,10 +46,10 @@ def render_tab_08_metricas_gatsby(api_client, country_id: str, active_policy: di
         df_gats = pd.DataFrame(countries_gatsby)
         fig_gats = go.Figure()
         fig_gats.add_trace(go.Scatter(x=df_gats["gini"], y=df_gats["ige"], mode="markers+text", text=df_gats["name"], textposition="top center", marker=dict(size=14, color=df_gats["color"])))
-        # Add regression line
         fig_gats.add_trace(go.Scatter(x=[0.25, 0.65], y=[0.20, 0.70], mode="lines", line=dict(color="gray", dash="dash"), name="Tendencia Global"))
         fig_gats.update_layout(title="Curva de Great Gatsby (Gini vs Elasticidad IGE)", xaxis_title="Coeficiente de Gini", yaxis_title="Elasticidad Intergeneracional del Ingreso (IGE)", template="plotly_dark", height=420)
         st.plotly_chart(fig_gats, use_container_width=True)
+        st.caption("💡 **Interpretabilidad & Explicabilidad**: Ubica la calibración regional en el mapa global. Explica la correlación positiva entre alta desigualdad de ingresos (Gini) y baja movilidad intergeneracional (alto IGE).")
 
     st.markdown("---")
     st.subheader("🧩 Descomposición de Canales de Movilidad Social (Oaxaca-Blinder / Shapley)")
@@ -58,3 +58,4 @@ def render_tab_08_metricas_gatsby(api_client, country_id: str, active_policy: di
     for idx, d_item in enumerate(decomp):
         with cols_d[idx]:
             st.metric(d_item["channel"], f"{d_item['percentage']:.0f}%", help=d_item["description"])
+    st.caption("💡 **Interpretabilidad & Explicabilidad**: Desglosa el peso relativo porcentual de cada canal explicativo sobre la movilidad social (capital cognitivo, redes, segregación, calidad universitaria e herencia).")

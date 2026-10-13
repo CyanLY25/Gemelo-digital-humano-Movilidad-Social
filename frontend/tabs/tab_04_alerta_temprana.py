@@ -13,6 +13,7 @@ def render_tab_04_alerta_temprana(api_client, country_id: str, active_policy: di
     with c_data2:
         if st.button("🔄 Generar Sintético (500 Estudiantes)", type="secondary"):
             st.success("Dataset sintetizado correctamente.")
+    st.caption("💡 **Interpretabilidad & Explicabilidad**: Describe el volumen y la distribución muestral del conjunto de estudiantes evaluados para el monitoreo de riesgo escolar.")
 
     # Evaluador Individual
     st.markdown("---")
@@ -63,9 +64,11 @@ def render_tab_04_alerta_temprana(api_client, country_id: str, active_policy: di
         fig2.add_trace(go.Bar(x=df["contribution"], y=df["label"], orientation="h", marker=dict(color=colors), text=[f"{v:+.1f} pts" for v in df["contribution"]], textposition="outside"))
         fig2.update_layout(title="Impacto Incremental en el Riesgo", template="plotly_dark", height=300, margin=dict(l=20, r=20, t=40, b=20))
         st.plotly_chart(fig2, use_container_width=True)
+        st.caption("💡 **Interpretabilidad & Explicabilidad**: Muestra la contribución de cada factor individual sobre el porcentaje total de riesgo de deserción del estudiante.")
 
     st.markdown("### 📋 Plan de Intervenciones Focalizadas Priorizadas")
     for rec in pred["recommendations"]:
         icon = "🔴" if rec["priority"] == "Alta" else ("🟡" if rec["priority"] == "Media" else "🟢")
         with st.expander(f"{icon} **[{rec['category']}] {rec['title']}** — Prioridad: {rec['priority']}", expanded=True):
             st.write(rec["description"])
+    st.caption("💡 **Interpretabilidad & Explicabilidad**: Detalla el conjunto de intervenciones pedagógicas y psicosociales recomendadas según las causas principales identificadas en la evaluación del estudiante.")

@@ -20,14 +20,32 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-st.markdown("""
-<style>
-[data-testid="stAppViewContainer"] { background-color: #0f1117; }
-[data-testid="stSidebar"] { background-color: #1a1d27; }
-.stTabs [data-baseweb="tab"] { font-size:0.88rem; font-weight:600; padding: 6px 12px; }
-h1,h2,h3 { color: #64b5f6; }
-</style>
-""", unsafe_allow_html=True)
+# ── Session State para Tema (Oscuro/Claro) e Idioma (Español/Inglés) ──────────
+if "app_theme" not in st.session_state:
+    st.session_state["app_theme"] = "dark"
+
+if "app_lang" not in st.session_state:
+    st.session_state["app_lang"] = "es"
+
+# Dynamic CSS Theme Injection
+if st.session_state["app_theme"] == "dark":
+    st.markdown("""
+    <style>
+    [data-testid="stAppViewContainer"] { background-color: #0f1117; color: #e0e0e0; }
+    [data-testid="stSidebar"] { background-color: #1a1d27; }
+    .stTabs [data-baseweb="tab"] { font-size:0.88rem; font-weight:600; padding: 6px 12px; }
+    h1,h2,h3 { color: #64b5f6; }
+    </style>
+    """, unsafe_allow_html=True)
+else:
+    st.markdown("""
+    <style>
+    [data-testid="stAppViewContainer"] { background-color: #f8f9fa; color: #212529; }
+    [data-testid="stSidebar"] { background-color: #ffffff; border-right: 1px solid #e9ecef; }
+    .stTabs [data-baseweb="tab"] { font-size:0.88rem; font-weight:600; padding: 6px 12px; }
+    h1,h2,h3 { color: #1565c0; }
+    </style>
+    """, unsafe_allow_html=True)
 
 from frontend.api_client import APIClient, COUNTRY_CALIBRATIONS, PRESET_POLICIES
 
@@ -53,6 +71,23 @@ with st.sidebar:
     st.caption("Gemelo Digital Human Social | v3.11 Python Stack")
     st.markdown("---")
 
+    # BOTONES DE TEMA E IDIOMA
+    st.markdown("### ⚙️ Preferencias / Settings")
+    col_t1, col_t2 = st.columns(2)
+    with col_t1:
+        theme_icon = "☀️ Claro" if st.session_state["app_theme"] == "dark" else "🌙 Oscuro"
+        if st.button(theme_icon, key="btn_theme_toggle", use_container_width=True):
+            st.session_state["app_theme"] = "light" if st.session_state["app_theme"] == "dark" else "dark"
+            st.rerun()
+
+    with col_t2:
+        lang_icon = "🇺🇸 English" if st.session_state["app_lang"] == "es" else "🇪🇸 Español"
+        if st.button(lang_icon, key="btn_lang_toggle", use_container_width=True):
+            st.session_state["app_lang"] = "en" if st.session_state["app_lang"] == "es" else "es"
+            st.rerun()
+
+    st.markdown("---")
+
     health = api.get_health()
     if health.get("status") == "ok":
         st.success(f"✅ Backend FastAPI **EN LÍNEA** (v{health.get('version','3.11.0')})")
@@ -60,10 +95,12 @@ with st.sidebar:
         st.warning("⚠️ Modo **Fallback Python Directo**")
 
     st.markdown("---")
-    st.subheader("🗺️ País / Región")
+    country_lbl = "🗺️ País / Región" if st.session_state["app_lang"] == "es" else "🗺️ Country / Region"
+    sel_lbl = "Seleccionar calibración" if st.session_state["app_lang"] == "es" else "Select calibration"
+    st.subheader(country_lbl)
     country_options = {cid: c["name"] for cid, c in COUNTRY_CALIBRATIONS.items()}
     sel_country_id = st.selectbox(
-        "Seleccionar calibración",
+        sel_lbl,
         options=list(country_options.keys()),
         format_func=lambda k: country_options[k],
         index=list(country_options.keys()).index("bogota_colombia"),
@@ -73,10 +110,12 @@ with st.sidebar:
     st.caption(f"Muestra: {sel_country['sampleSize']:,} registros")
 
     st.markdown("---")
-    st.subheader("🏛️ Política Activa")
+    pol_lbl = "🏛️ Política Activa" if st.session_state["app_lang"] == "es" else "🏛️ Active Policy"
+    scen_lbl = "Escenario de Política" if st.session_state["app_lang"] == "es" else "Policy Scenario"
+    st.subheader(pol_lbl)
     policy_options = {pid: p["name"] for pid, p in PRESET_POLICIES.items()}
     sel_policy_id = st.selectbox(
-        "Escenario de Política",
+        scen_lbl,
         options=list(policy_options.keys()),
         format_func=lambda k: policy_options[k],
         index=0,
@@ -88,29 +127,55 @@ with st.sidebar:
     st.caption("📦 FastAPI · Pydantic v2 · Streamlit · Plotly 3D · CRISP-DM · LangGraph · gTTS · ReportLab")
 
 # ── HEADER ────────────────────────────────────────────────────────────────────
-st.title("🌐 Gemelo Digital Human Social — Simulador v3.11")
-st.markdown(
-    f"**Marco**: HDT-ABM-RL · Curva Great Gatsby · Bellman · Mincer · CRISP-DM ML · IEEE 7000  "
-    f"| **Calibración**: `{sel_country['name']}` | **Política**: `{active_policy['name']}`"
-)
+if st.session_state["app_lang"] == "es":
+    st.title("🌐 Gemelo Digital Human Social — Simulador v3.11")
+    st.markdown(
+        f"**Marco**: HDT-ABM-RL · Curva Great Gatsby · Bellman · Mincer · CRISP-DM ML · IEEE 7000  "
+        f"| **Calibración**: `{sel_country['name']}` | **Política**: `{active_policy['name']}`"
+    )
+else:
+    st.title("🌐 Human Social Digital Twin — Simulator v3.11")
+    st.markdown(
+        f"**Framework**: HDT-ABM-RL · Great Gatsby Curve · Bellman · Mincer · CRISP-DM ML · IEEE 7000  "
+        f"| **Calibration**: `{sel_country['name']}` | **Policy**: `{active_policy['name']}`"
+    )
 st.markdown("---")
 
 # ── 13 TABS ───────────────────────────────────────────────────────────────────
-tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9, tab10, tab11, tab12, tab13 = st.tabs([
-    "01. Explorador 3D WebGL",
-    "02. Simulador & Políticas",
-    "03. Motor Predictivo ML",
-    "04. Alerta Temprana",
-    "05. Orquestación IA",
-    "06. Catálogo Datasets",
-    "07. Tablero SCRUM",
-    "08. Métricas & Gatsby",
-    "09. Auditoría Ética",
-    "10. Calibración Empírica",
-    "11. Código & Notebooks",
-    "12. Copiloto Voz & Chat",
-    "13. Reportes Executivos",
-])
+if st.session_state["app_lang"] == "es":
+    tab_names = [
+        "01. Explorador 3D WebGL",
+        "02. Simulador & Políticas",
+        "03. Motor Predictivo ML",
+        "04. Alerta Temprana",
+        "05. Orquestación IA",
+        "06. Catálogo Datasets",
+        "07. Tablero SCRUM",
+        "08. Métricas & Gatsby",
+        "09. Auditoría Ética",
+        "10. Calibración Empírica",
+        "11. Código & Notebooks",
+        "12. Copiloto Voz & Chat",
+        "13. Reportes Ejecutivos",
+    ]
+else:
+    tab_names = [
+        "01. 3D WebGL Explorer",
+        "02. Policy Simulator",
+        "03. ML Predictive Engine",
+        "04. Early Warning",
+        "05. AI Orchestration",
+        "06. Datasets Catalog",
+        "07. SCRUM Board",
+        "08. Metrics & Gatsby",
+        "09. Ethics Audit",
+        "10. Empirical Calibration",
+        "11. Code & Notebooks",
+        "12. Voice & Chat Copilot",
+        "13. Executive Reports",
+    ]
+
+tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9, tab10, tab11, tab12, tab13 = st.tabs(tab_names)
 
 with tab1: render_tab_01_explorador_3d(api, sel_country_id, active_policy)
 with tab2: render_tab_02_simulador_politicas(api, sel_country_id, active_policy)

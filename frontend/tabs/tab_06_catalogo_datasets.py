@@ -11,6 +11,7 @@ def render_tab_06_catalogo_datasets():
     with t1:
         df_ds = pd.DataFrame(PUBLIC_DATASETS)
         st.dataframe(df_ds, use_container_width=True, hide_index=True)
+        st.caption("💡 **Interpretabilidad & Explicabilidad**: Resume la metainformación de los 9 conjuntos de datos internacionales. Explica el origen institucional, tamaño muestral y los coeficientes base de desigualdad de cada fuente.")
 
     with t2:
         st.subheader("📤 Cargar Nuevo Dataset (CSV / Excel / JSON)")
@@ -41,6 +42,7 @@ def render_tab_06_catalogo_datasets():
 
                 if st.button("⚡ Recalibrar Agentes HDT con Microdatos Cargados", type="primary"):
                     st.success("¡Población de agentes HDT recalibrada exitosamente desde el nuevo dataset!")
+                st.caption("💡 **Interpretabilidad & Explicabilidad**: Mapea automáticamente las columnas del usuario hacia los 5 capitales HDT, garantizando consistencia semántica en la calibración del modelo.")
 
             except Exception as e:
                 st.error(f"Error al procesar el archivo: {str(e)}")

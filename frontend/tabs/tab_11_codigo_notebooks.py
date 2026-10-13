@@ -22,6 +22,7 @@ def render_tab_11_codigo_notebooks():
         ### 4. Coeficiente de Gini por Integración Trapezoidal de Lorenz
         $$Gini = \frac{2 \sum_{i=1}^N i \cdot w_{(i)}}{N \sum_{i=1}^N w_{(i)}} - \frac{N+1}{N}$$
         """)
+        st.caption("💡 **Interpretabilidad & Explicabilidad**: Define los fundamentos matemáticos analíticos del modelo (Bellman, Mincer, Heckman y Gini) que rigen el comportamiento optimizador e intertemporal de cada agente.")
 
     with t2:
         st.subheader("🐍 Script de Python: Motor HDT-ABM-RL (Extracto Executable)")
@@ -45,7 +46,6 @@ def compute_mincerian_log_wage(schooling, experience, weak_ties, cognitive_iq, s
 print("Salario estimado:", compute_mincerian_log_wage(schooling=16, experience=10, weak_ties=8, cognitive_iq=115, spatial_penalty=0.15))
         """, language="python")
 
-        # Jupyter notebook download
         notebook_content = {
             "cells": [
                 {
@@ -72,3 +72,4 @@ print("Salario estimado:", compute_mincerian_log_wage(schooling=16, experience=1
             file_name="HDT_Simulator_v311.ipynb",
             mime="application/x-ipynb+json"
         )
+        st.caption("💡 **Interpretabilidad & Explicabilidad**: Ofrece una implementación ejecutable del motor Minceriano extendido en código Python puro para inspección algorítmica y replicación en Jupyter Notebook.")

@@ -25,6 +25,7 @@ def render_tab_03_motor_predictivo_ml(api_client):
         st.subheader("📊 Comparativa de los 5 Algoritmos ML Entrenados")
         df_ml = pd.DataFrame(models_data)
         st.dataframe(df_ml[["model_name", "f1_score", "auc_roc", "latency_ms", "explicability_score", "brier_score"]], use_container_width=True, hide_index=True)
+        st.caption("💡 **Interpretabilidad & Explicabilidad**: Resume las métricas clave de desempeño. Permite explicar la ganancia relativa en precisión (F1/AUC) frente a las restricciones de latencia operativa de cada algoritmo.")
 
         col_roc, col_cm = st.columns(2)
         with col_roc:
@@ -36,6 +37,7 @@ def render_tab_03_motor_predictivo_ml(api_client):
             fig_roc.add_trace(go.Scatter(x=[0, 1], y=[0, 1], mode="lines", line=dict(dash="dash", color="gray"), name="Azar"))
             fig_roc.update_layout(xaxis_title="False Positive Rate", yaxis_title="True Positive Rate", template="plotly_dark", height=380)
             st.plotly_chart(fig_roc, use_container_width=True)
+            st.caption("💡 **Interpretabilidad & Explicabilidad**: Evalúa la capacidad discriminativa entre verdaderos y falsos positivos. Cuanto más cerca del vértice superior izquierdo se sitúe la curva, mayor es la capacidad del modelo para clasificar trampas de pobreza.")
 
         with col_cm:
             st.markdown("#### Matriz de Confusión — Modelo Seleccionado")
@@ -45,6 +47,7 @@ def render_tab_03_motor_predictivo_ml(api_client):
             fig_cm = go.Figure(data=go.Heatmap(z=cm, x=["Pred: No Trampa", "Pred: Trampa"], y=["Real: No Trampa", "Real: Trampa"], colorscale="Blues", text=[[str(v) for v in r] for r in cm], texttemplate="%{text}", textfont={"size": 16}))
             fig_cm.update_layout(template="plotly_dark", height=380)
             st.plotly_chart(fig_cm, use_container_width=True)
+            st.caption("💡 **Interpretabilidad & Explicabilidad**: Muestra los aciertos en la diagonal principal y los errores de clasificación (falsos positivos y falsos negativos). Permite auditar el sesgo del algoritmo elegido.")
 
     with sub_t2:
         st.subheader("🔍 Predicción Individual & TreeSHAP Force Values")
@@ -66,6 +69,7 @@ def render_tab_03_motor_predictivo_ml(api_client):
             fig_bar = go.Figure(go.Bar(x=shap_df["impact"], y=shap_df["feature"], orientation="h", marker=dict(color=["#FF1744" if v > 0 else "#00E676" for v in shap_df["impact"]])))
             fig_bar.update_layout(template="plotly_dark", height=280)
             st.plotly_chart(fig_bar, use_container_width=True)
+            st.caption("💡 **Interpretabilidad & Explicabilidad**: Desglosa la contribución individual SHAP de cada variable. Explica por qué el modelo asignó dicho nivel de riesgo específico al agente inspeccionado.")
 
     with sub_t3:
         st.subheader("🏆 Selección del Mejor Algoritmo vía MCDA / TOPSIS")
@@ -83,6 +87,7 @@ def render_tab_03_motor_predictivo_ml(api_client):
         })
 
         st.dataframe(pd.DataFrame(topsis_res), use_container_width=True, hide_index=True)
+        st.caption("💡 **Interpretabilidad & Explicabilidad**: Muestra la jerarquización multicriterio TOPSIS. Explica cuantitativamente cuál algoritmo es óptimo al sopesar simultáneamente precisión, latencia y explicabilidad.")
 
     with sub_t4:
         st.subheader("⚡ Reentrenamiento en Vivo del Modelo")
@@ -105,6 +110,7 @@ def render_tab_03_motor_predictivo_ml(api_client):
                 template="plotly_dark", height=380
             )
             st.plotly_chart(fig_loss, use_container_width=True)
+            st.caption("💡 **Interpretabilidad & Explicabilidad**: Visualiza la convergencia del entrenamiento. La disminución del error (Loss) y el aumento del F1 explican la estabilización del modelo sin sobreajuste.")
 
     with sub_t5:
         st.subheader("📜 Logs en Tiempo Real & Trazabilidad")
@@ -114,8 +120,9 @@ def render_tab_03_motor_predictivo_ml(api_client):
 [INFO] 2026-09-21 23:50:02 - Training Random Forest (N=100 estimators)... Completed in 14.2ms. F1: 0.864
 [INFO] 2026-09-21 23:50:03 - Training XGBoost Classifier... Completed in 8.7ms. F1: 0.898
 [INFO] 2026-09-21 23:50:04 - Training LSTM-Autoencoder + RF... Completed in 22.8ms. F1: 0.915
-[SUCCESS] TOPSIS Multi-Criteria Ranking Computed. Winner: LSTM-Autoencoder + RF (Closeness: 0.9182)
+[SUCCESS] TOPSIS Multi-Criteria Ranking Computed. Winner: XGBoost (Closeness: 0.8654)
         """, language="bash")
+        st.caption("💡 **Interpretabilidad & Explicabilidad**: Proporciona auditoría y trazabilidad completa del ciclo de ejecuciones de entrenamiento de los algoritmos.")
 
     with sub_t6:
         st.subheader("📈 Análisis Exploratorio de Datos (EDA) & Normalidad")
@@ -127,6 +134,7 @@ def render_tab_03_motor_predictivo_ml(api_client):
             {"Capital": "Psicológico", "Shapiro-Wilk W": 0.991, "p-value": 0.450, "VIF": 1.22, "Distribución": "Gaussiana"},
             {"Capital": "Estructural", "Shapiro-Wilk W": 0.941, "p-value": 0.008, "VIF": 2.45, "Distribución": "Segregada (Pareto)"},
         ])
+        st.caption("💡 **Interpretabilidad & Explicabilidad**: Evalúa las propiedades estadísticas de las variables explicativas. Los valores bajo VIF (< 5) confirman la ausencia de multicolinealidad severa entre capitales.")
 
     with sub_t7:
         st.subheader("🔄 Validación Cruzada (Standard vs Stratified K-Fold vs TimeSeries)")
@@ -135,6 +143,7 @@ def render_tab_03_motor_predictivo_ml(api_client):
             {"Esquema CV": "Stratified K-Fold (10-Fold)", "Mean F1": 0.915, "Std F1": "±0.012", "AUC-ROC": 0.958},
             {"Esquema CV": "TimeSeriesSplit Intergeneracional", "Mean F1": 0.884, "Std F1": "±0.025", "AUC-ROC": 0.932},
         ])
+        st.caption("💡 **Interpretabilidad & Explicabilidad**: Comprueba la estabilidad del rendimiento del modelo entre distintas particiones de datos, asegurando generalización sin sobreajuste.")
 
     with sub_t8:
         st.subheader("🎯 Optimización de Hiperparámetros (Bayesian TPE Optuna)")
@@ -144,6 +153,7 @@ def render_tab_03_motor_predictivo_ml(api_client):
         fig_opt = go.Figure(go.Scatter(x=trials, y=scores, mode="lines+markers", name="F1 Score Target"))
         fig_opt.update_layout(xaxis_title="Trial Number", yaxis_title="Validation F1 Score", template="plotly_dark", height=360)
         st.plotly_chart(fig_opt, use_container_width=True)
+        st.caption("💡 **Interpretabilidad & Explicabilidad**: Muestra la curva de aprendizaje del optimizador Bayesiano TPE. Explica el progreso hacia la combinación óptima de hiperparámetros.")
 
     with sub_t9:
         st.subheader("🔬 Pruebas de Inferencia & Robustez al Ruido")
@@ -153,3 +163,4 @@ def render_tab_03_motor_predictivo_ml(api_client):
         - **McNemar Test de Discordancia**: `chi2 = 12.4, p = 0.00042`
         - **Robustez a Ruido Gaussiano ($\sigma=0.1$)**: Degradación de F1 < 1.8%
         """)
+        st.caption("💡 **Interpretabilidad & Explicabilidad**: Valida la significancia estadística y la estabilidad del modelo frente a variaciones y perturbaciones de ruido en los datos de entrada.")

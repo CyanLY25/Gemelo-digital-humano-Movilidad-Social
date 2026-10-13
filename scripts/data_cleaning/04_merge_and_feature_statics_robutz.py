@@ -1,5 +1,5 @@
 """
-Script 04: Consolidación, feature engineering y etiquetado de la variable objetivo (Trampa de Pobreza) listo para el entrenamiento ML.
+Script 04: Pruebas Estadisticas Robustas.
 """
 import os
 import pandas as pd

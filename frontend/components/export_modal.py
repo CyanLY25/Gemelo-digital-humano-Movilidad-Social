@@ -41,3 +41,5 @@ def render_export_buttons(api_client, country_id: str = "bogota_colombia"):
                         file_name=f"Reporte_Ejecutivo_{country_id}.xlsx",
                         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                     )
+
+    st.caption("💡 **Interpretabilidad & Explicabilidad**: Empaqueta los resultados de la simulación, microdatos y auditorías en informes descargables auditables para toma de decisiones directivas.")

@@ -35,6 +35,7 @@ def render_tab_01_explorador_3d(api_client, country_id: str, active_policy: Dict
             template="plotly_dark", height=650
         )
         st.plotly_chart(fig, use_container_width=True)
+        st.caption("💡 **Interpretabilidad & Explicabilidad**: Muestra la trayectoria salarial individual de cada agente a lo largo de su vida. Permite explicar cómo el quintil de origen (color) condiciona la velocidad de acumulación salarial conforme aumenta la edad y el nivel educativo.")
 
     elif mode == "Hiperespacio HDT (5 Capitales)":
         fig = go.Figure()
@@ -54,6 +55,7 @@ def render_tab_01_explorador_3d(api_client, country_id: str, active_policy: Dict
             template="plotly_dark", height=650
         )
         st.plotly_chart(fig, use_container_width=True)
+        st.caption("💡 **Interpretabilidad & Explicabilidad**: Ilustra la distribución espacial de la población según su dotación de capitales. Explica por qué agentes con alto capital cognitivo y social logran mayores salarios finales independientemente del sesgo inicial.")
 
     elif mode == "Redes & Homofilia 3D":
         fig = go.Figure()
@@ -61,7 +63,6 @@ def render_tab_01_explorador_3d(api_client, country_id: str, active_policy: Dict
         y_pts = [a["capital"]["social"] for a in agents]
         z_pts = [a["finalWage"] for a in agents]
         
-        # Add network links
         ex, ey, ez = [], [], []
         for i in range(min(len(agents), 100)):
             for j in range(i+1, min(len(agents), 100)):
@@ -76,6 +77,7 @@ def render_tab_01_explorador_3d(api_client, country_id: str, active_policy: Dict
         fig.add_trace(go.Scatter3d(x=x_pts, y=y_pts, z=z_pts, mode="markers", marker=dict(size=5, color="#29B6F6")))
         fig.update_layout(title="Redes de Homofilia y Lazos Débiles de Granovetter 3D", template="plotly_dark", height=650)
         st.plotly_chart(fig, use_container_width=True)
+        st.caption("💡 **Interpretabilidad & Explicabilidad**: Visualiza los vínculos de red entre agentes del mismo estrato socioeconómico (homofilia). Explica el fenómeno de formación de trampas de pobreza por aislamiento de redes informativas formales.")
 
     else:  # Curva Gatsby 3D
         ginis = np.linspace(0.2, 0.7, 20)
@@ -90,10 +92,11 @@ def render_tab_01_explorador_3d(api_client, country_id: str, active_policy: Dict
             template="plotly_dark", height=650
         )
         st.plotly_chart(fig, use_container_width=True)
+        st.caption("💡 **Interpretabilidad & Explicabilidad**: Mapea la interacción combinada entre desigualdad de ingresos (Gini) y segregación espacial sobre la inmovilidad intergeneracional (IGE). Explica cómo a mayor desigualdad urbana se amplifica la rigidez social.")
 
     # HDT Inspector Panel
     st.markdown("---")
-    st.subheader("🔍 HDT Inspector Panel Panel del Agente")
+    st.subheader("🔍 HDT Inspector Panel del Agente")
     sel_agent_id = st.selectbox("Seleccionar Agente HDT para Inspección Detallada", [a["id"] for a in agents])
     agent_info = next(a for a in agents if a["id"] == sel_agent_id)
 
@@ -113,3 +116,5 @@ def render_tab_01_explorador_3d(api_client, country_id: str, active_policy: Dict
         st.progress(min(1.0, caps["social"]), text=f"Social (Weak Ties): {caps['social']*100:.0f}%")
         st.progress(min(1.0, caps["psychological"]), text=f"Psicológico (Grit): {caps['psychological']:.2f}")
         st.progress(min(1.0, caps["structural"]), text=f"Estructural (Vecindario): {caps['structural']:.2f}")
+    
+    st.caption("💡 **Interpretabilidad & Explicabilidad**: Desglosa el perfil micro-económico y los 5 capitales constitutivos del agente seleccionado, explicando su movilidad relativa desde el quintil de origen hacia el quintil de destino.")
